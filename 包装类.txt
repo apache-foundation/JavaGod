@@ -1,0 +1,1 @@
+Integer i = 3 与 Integer i = Integer.valueOf(3) 完全相同

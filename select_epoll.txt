@@ -1,0 +1,17 @@
+1.epoll利用mmap将用户空间的一块地址和内核空间的一块地址同时映射到相同的一块物理内存地址，而select需要传参，每次都要拷贝所以socket文件句柄。
+2.套接字由红黑树组成数据结构储存，添加删除性能好
+3.网卡触发回调，回调函数其实就所把这个事件添加到rdllist这个双向链表中，epoll_wait只需要检查rdlist双向链表中是否有存在注册的事件，效率非常可观。这里也需要将发生了的事件复制到用户态内存中即可。
+
+epoll_wait的工作流程：
+epoll_wait调用ep_poll，当rdlist为空（无就绪fd）时挂起当前进程，直到rdlist不空时进程才被唤醒。
+文件fd状态改变（buffer由不可读变为可读或由不可写变为可写），导致相应fd上的回调函数ep_poll_callback()被调用。
+ep_poll_callback将相应fd对应epitem加入rdlist，导致rdlist不空，进程被唤醒，epoll_wait得以继续执行。
+ep_events_transfer函数将rdlist中的epitem拷贝到txlist中，并将rdlist清空。
+ep_send_events函数（很关键），它扫描txlist中的每个epitem，调用其关联fd对用的poll方法。此时对poll的调用仅仅是取得fd上较新的events（防止之前events被更新），之后将取得的events和相应的fd发送到用户空间（封装在struct epoll_event，从epoll_wait返回）。
+
+需要注意的是：epoll并不是在所有的应用场景都会比select和poll高很多。尤其是当活动连接比较多的时候，回调函数被触发得过于频繁的时候，epoll的效率也会受到显著影响！所以，epoll特别适用于连接数量多，但活动连接较少的情况。
+
+ET自动清空缓存 LT不会
+
+LT：水平触发，效率会低于ET触发，尤其在大并发，大流量的情况下。但是LT对代码编写要求比较低，不容易出现问题。LT模式服务编写上的表现是：只要有数据没有被获取，内核就不断通知你，因此不用担心事件丢失的情况。
+ET：边缘触发，效率非常高，在并发，大流量的情况下，会比LT少很多epoll的系统调用，因此效率高。但是对编程要求高，需要细致的处理每个请求，否则容易发生丢失事件的情况。

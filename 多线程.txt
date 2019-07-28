@@ -1,0 +1,3 @@
+synchronized 修饰函数，同一对象所有带有 synchronized 的函数同一时刻只能运行一个
+volatile 保证了变量的可见性
+synchronized的可见性由“对一个变量执行unlock前，必须先把此变量同步回主内存”。获得。
