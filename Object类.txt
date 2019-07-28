@@ -1,0 +1,2 @@
+hashcode 是 native 方法
+equals 默认比的是引用 即 ==

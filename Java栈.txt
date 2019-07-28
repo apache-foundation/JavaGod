@@ -1,0 +1,1 @@
+Java中 使用栈时 使用Linklist 不要使用 Stack

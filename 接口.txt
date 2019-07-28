@@ -1,0 +1,1 @@
+接口中的变量都是 public static final 的, 函数都是 public 的

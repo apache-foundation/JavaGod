@@ -1,0 +1,12 @@
+sublime text
+Ctrl + R 显示函数列表
+idea
+Ctrl + 左键          显示源码
+Alt + Insert         生成 getset
+Alt+1                  将窗口焦点集中到Project
+Alt+9                  切换到Changes窗口
+Alt + F12            Terminal工具窗口
+ESC                    可以返回代码编辑窗口
+Alt + Enter         创建不存在的方法
+Ctrl + Shift + Enter  自动格式对齐
+Shift + Tab         删除Tab
