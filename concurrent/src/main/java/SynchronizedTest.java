@@ -26,14 +26,15 @@ public class SynchronizedTest extends Thread {
     }
 
     public synchronized void aNonStatic() {
-
+        
+        System.out.println(Thread.currentThread().getName()+"->execute");
+    
         System.out.print(Thread.currentThread().getName()+"->execute");
         System.out.println("");
         try {
             Thread.sleep(5000);
             System.out.println(Thread.currentThread().getName()+" time...");
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -42,13 +43,12 @@ public class SynchronizedTest extends Thread {
     }
     public static synchronized void aStatic() {
 
-        System.out.print(Thread.currentThread().getName()+"->execute");
-        System.out.println("");
+        System.out.println(Thread.currentThread().getName()+"->execute");
+    
         try {
             Thread.sleep(5000);
             System.out.println(Thread.currentThread().getName()+" time...");
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
