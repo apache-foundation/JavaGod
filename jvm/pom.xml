@@ -8,6 +8,8 @@
     <artifactId>jvm</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
+        <!--        需要指名源代码目录-->
+        <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
